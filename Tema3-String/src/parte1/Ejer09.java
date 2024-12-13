@@ -25,30 +25,57 @@ public class Ejer09 {
 		String frase;
 
 		// variable para almacenar la frase traducida
-		String fraseTraducida;
+		String fraseTraducida = "";
+
+		// variable para almacenar el prefijo y el sufijo
+		String prefijo = "Javalín, javalón			";
+		String sufijo = "			javalén, len, len";
 
 		// variable para comprobar si la frase está en javalín javalón
 		boolean empieza = true;
 		boolean acaba = true;
 
 		// pregunto al usuario por la frase
-		System.out.print("Escriba una frase para traducirla: ");
+		System.out.print("Escriba una frase para traducirla del Javalín, Javalón a español: ");
 
 		// almaceno la frase en la variable
 		frase = leer.nextLine();
 
-		// compruebo si la frase está en javalín javalón
+		// compruebo si la frase está en javalín javalón y lo almaceno en variab
 		empieza = frase.startsWith("Javalín, javalón			");
-		acaba = frase.endsWith("			javalén, len, len.");
+		acaba = frase.endsWith("			javalén, len, len");
 
 		// si la variable es verdad entonces
-		if (empieza == true && acaba == true) {
-			// reemplazo los prefijos y sufijos
-			fraseTraducida = frase.replace("Javalín, javalón			", "");
-			fraseTraducida = frase.replace("			javalén, len, len", "");
+		if (empieza == true || acaba == true) {
+			// si solo tiene el prefijo
+			if (empieza == true && acaba == false) {
+				// agarra toda la frase desde el final del prefijo
+				fraseTraducida = frase.substring(prefijo.length());
 
-			// muestro la frase traducida
-			System.out.println(fraseTraducida);
+				// muestro la frase traducida
+				System.out.println("Traducción de la frase: " + fraseTraducida);
+
+				// si solo acaba por el sufijo
+			} else if (acaba == true && empieza == false) {
+
+				// agarra toda la frase menos el final
+				fraseTraducida = frase.substring(0, (frase.length() - sufijo.length()));
+
+				// muestro la frase traducida
+				System.out.println("Traducción de la frase: " + fraseTraducida);
+
+				// si tiene prefijo y sufijo
+			} else {
+
+				// agarro lo del "en medio"
+				fraseTraducida = frase.substring(prefijo.length(), (frase.length() - sufijo.length()));
+
+				// muestro la frase traducida
+				System.out.println("Traducción de la frase: " + fraseTraducida);
+			}
+		} else {
+			// si la frase no está en Javalín Javalón muestra la frase normal
+			System.out.println("La frase no está en Javalín, Javalón: " + frase);
 		}
 
 		// cierro el scanner
