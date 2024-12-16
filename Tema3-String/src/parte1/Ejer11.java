@@ -2,29 +2,24 @@ package parte1;
 
 import java.util.Scanner;
 
-public class Ejer10 {
+public class Ejer11 {
 
 	public static void main(String[] args) {
 
 		/*
-		 * mediante la cual es posible codificar un texto, convirtiendo cada letra del
-		 * conjunto 1, en su correspondiente del conjunto 2. El resto de las letras no
-		 * se modifican. Los conjuntos se utilizan tanto para codificar mayúsculas como
-		 * minúsculas, mostrando siempre la codificación en minúsculas. Un ejemplo: la
-		 * palabra «PaquiTo» se codifica como «matqvko». Se pide realizar un programa
-		 * codificador, en el que se implemente la función: char codifica(char
-		 * conjunto1[],char conjunto2[], char c) que devuelve el carácter c codificado
-		 * según los conjuntos 1 y 2 que se le pasan.
+		 * Realizar un programa descodificador. La solución es tan sencilla como
+		 * utilizar la función diseñada en el ejercicio anterior intercambiando los
+		 * conjuntos entre sí.
 		 */
 
 		// Creación del scanner
 		Scanner leer = new Scanner(System.in);
 
 		// conjunto de letras 1
-		char conjunto1[] = { 'e', 'i', 'k', 'm', 'p', 'q', 'r', 's', 't', 'u', 'v' };
+		char conjunto1[] = { 'p', 'v', 'i', 'u', 'm', 't', 'e', 'r', 'k', 'q', 's' };
 
 		// conjunto de letras 2
-		char conjunto2[] = { 'p', 'v', 'i', 'u', 'm', 't', 'e', 'r', 'k', 'q', 's' };
+		char conjunto2[] = { 'e', 'i', 'k', 'm', 'p', 'q', 'r', 's', 't', 'u', 'v' };
 
 		// variable para recoger la frase a cambiar del usuario
 		String frase;
