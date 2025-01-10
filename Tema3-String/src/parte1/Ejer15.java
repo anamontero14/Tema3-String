@@ -60,14 +60,14 @@ public class Ejer15 {
 			// la comparo
 			if (frase.equals(respuesta)) {
 				// si ha acertado
-				System.out.println("Enhora buena, ¡has acertado!");
+				System.out.println("Enhorabuena, ¡has acertado!");
 			} else {
 
 				// mientras que el jugador no acierte
 				while (!acierta) {
 
 					fraseFuncion = transposicionDeCaracteres(frase);
-					
+
 					// muestro otra vez la frase
 					System.out.println(fraseFuncion);
 
@@ -85,7 +85,7 @@ public class Ejer15 {
 				}
 
 				// felicito al usuario
-				System.out.println("Enhora buena, ¡has acertado!");
+				System.out.println("Enhorabuena, ¡has acertado!");
 			}
 		}
 
@@ -94,37 +94,44 @@ public class Ejer15 {
 
 	}
 
+	// Función para desordenar la frase
 	static String transposicionDeCaracteres(String frase) {
 
-		// creo una variable para almacenar la frase transpuesta
-		String fraseTranspuesta = "";
-
-		// creo una variable para almacenar un numero aleatorio
-		int numRandom;
-
-		// creo la clase random
+		// creación de clase random
 		Random rand = new Random();
 
-		// creo un bucle para recorrer la frase
-		for (int i = 0; i < frase.length(); i++) {
+		// creación de variable para almacenar la frase cambiada
+		String resultado = "";
 
-			// doy un numero random
-			numRandom = rand.nextInt(0, frase.length());
+		// conversión de la frase a array
+		char[] fraseCambiada = frase.toCharArray();
 
-			if (frase.charAt(numRandom) == ' ') {
+		// variable para almacenar la letra que se va a machacar a continuación
+		char aux;
 
-				fraseTranspuesta += ' ';
+		// variable para almacenar el número aleatorio
+		int numAleatorio;
 
-			} else {
+		// bucle para recorrer el array e ir intercambiando los datos
+		for (int i = 0; i < fraseCambiada.length; i++) {
 
-				// va concatenando
-				fraseTranspuesta += frase.charAt(numRandom);
-			}
+			// genero un nº aleatorio y lo almaceno en la variable
+			numAleatorio = rand.nextInt(0, fraseCambiada.length);
 
+			// en la variable almaceno lo que haya en la posicion i para que no se pierda
+			aux = fraseCambiada[i];
+
+			// en la posición i almaceno lo que haya en la posición aleatoria
+			fraseCambiada[i] = fraseCambiada[numAleatorio];
+
+			// en la posición aleatoria almaceno lo que haya en la variable
+			fraseCambiada[numAleatorio] = aux;
 		}
 
-		// devuelvo la frase cambiada
-		return fraseTranspuesta;
+		// paso el array a string y lo almaceno
+		resultado = String.valueOf(fraseCambiada);
+
+		return resultado;
 
 	}
 
