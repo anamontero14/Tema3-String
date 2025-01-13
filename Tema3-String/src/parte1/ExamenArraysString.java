@@ -31,18 +31,26 @@ public class ExamenArraysString {
 
 		desordenaAbecedario();
 
-		// llamo a la función
-		System.out.println(Arrays.deepToString(abecedario));
-
 		eligeFrase();
-
-		System.out.println(fraseReal);
 
 		codificaFrase();
 
-		System.out.println(fraseCodificada);
+		do {
+
+			System.out.println(Arrays.deepToString(abecedario));
+
+			System.out.println(fraseCodificada);
+
+			System.out.println(fraseReal);
+
+			compruebaCodigo();
+
+			sonIguales();
+
+		} while (!sonIguales());
 
 		// se le da la enhorabuena al jugador
+		System.out.println("Enhorabuena! Has descubierto la frase");
 
 		// cierro el scanner
 		leer.close();
@@ -118,7 +126,7 @@ public class ExamenArraysString {
 			if (fraseReal.charAt(i) != ' ') {
 				letra = fraseReal.charAt(i);
 			} else {
-				fraseCodificada += "   ";
+				fraseCodificada += "  ";
 			}
 
 			// bucle para recorrer el abecedario
@@ -126,8 +134,8 @@ public class ExamenArraysString {
 				for (int k = 0; k < abecedario[0].length; k++) {
 
 					if (letra == abecedario[j][k]) {
-						fraseCodificada += j;
 						fraseCodificada += " ";
+						fraseCodificada += j;
 						fraseCodificada += k;
 					}
 
@@ -147,27 +155,81 @@ public class ExamenArraysString {
 
 	// Ejemplo: Código: 04 Letra: ‘n’ → La función devuelve true y se modifica
 	// fraseCodificada: “14 02 13 18 n 14 20 06 n 06 07 23 14 13 14 …”
-	static String compruebaCodigo(String fraseCodificada) {
+	static void compruebaCodigo() {
 
 		// variable que almacenará el código
 		int codigo;
 
+		// codigo cambiado de tipo
+		String codigoCadena;
+
+		// codigo de fila
+		int codigoFila;
+
+		// codigo columna
+		int codigoCol;
+
 		// variable que almacenará la letra
 		char letra;
 
-		return fraseCodificada;
+		// cambio la letra de tipo
+		String letraCadena;
+
+		// pido el codigo
+		System.out.print("Código:");
+		codigo = leer.nextInt();
+
+		// hayo la columna
+		codigoCol = codigo % 10;
+
+		System.out.println(codigoCol);
+
+		// hayo la fila
+		codigoFila = codigo / 10;
+
+		System.out.println(codigoFila);
+
+		leer.nextLine();
+
+		codigoCadena = String.valueOf(codigo);
+
+		// pido la letra
+		System.out.print("Letra: ");
+		letra = leer.nextLine().toLowerCase().charAt(0);
+
+		letraCadena = String.valueOf(letra);
+
+		// si el código coincide
+		if (letra == abecedario[codigoFila][codigoCol]) {
+			System.out.println(true);
+
+			// cambia la frase codificada
+			fraseCodificada = fraseCodificada.replace(codigoCadena, letraCadena);
+		} else {
+			System.out.println(false);
+		}
 	}
 
 	/*
 	 * Devolverá true si la fraseCodificada coincide con la fraseReal y false en
 	 * caso contrario
 	 */
-	static boolean sonIguales(String fraseCodificada, String fraseReal) {
+	static boolean sonIguales() {
 
 		// variable que almacena si son o no iguales (por defecto lo son)
 		boolean comprobacion = true;
 
+		String copiaFraseCodificada = fraseCodificada.replace(" ", "");
+
+		String copiaFraseReal = fraseReal.replace(" ", "");
+
+		// comparacion
+		if (copiaFraseCodificada.equalsIgnoreCase(copiaFraseReal) == false) {
+			comprobacion = false;
+		}
+
 		return comprobacion;
+
 	}
 
 }
