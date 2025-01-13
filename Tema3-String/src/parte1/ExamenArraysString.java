@@ -5,14 +5,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class ExamenArraysString {
-	
+
 	// creacion de la clase random
 	static Random rand = new Random();
 
 	static Scanner leer = new Scanner(System.in);
 
 	// array del abecedario
-	static char[][] abecedario = { { 'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i' },
+	static char[][] abecedario = { { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' },
 			{ 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q' }, { 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' } };
 
 	// contendrá las frases con la que vamos a jugar
@@ -25,14 +25,22 @@ public class ExamenArraysString {
 	static String fraseReal;
 
 	// almacenará la codificación de la frase real
-	static String fraseCodificada;
+	static String fraseCodificada = "";
 
 	public static void main(String[] args) {
-		
+
 		desordenaAbecedario();
 
 		// llamo a la función
 		System.out.println(Arrays.deepToString(abecedario));
+
+		eligeFrase();
+
+		System.out.println(fraseReal);
+
+		codificaFrase();
+
+		System.out.println(fraseCodificada);
 
 		// se le da la enhorabuena al jugador
 
@@ -42,7 +50,6 @@ public class ExamenArraysString {
 
 	// Modifica la tabla abecedario desordenando las letras de la misma
 	static void desordenaAbecedario() {
-
 
 		// variable para guardar el numero random para la fila
 		int numRandFila;
@@ -71,16 +78,22 @@ public class ExamenArraysString {
 
 				// en la posición aleatoria meto lo que haya en la variable auxiliar
 				abecedario[numRandFila][numRandCol] = aux;
-				
+
 			}
 		}
 
 	}
 
 	// Elige una frase al azar del array frases y la asigna al atributo fraseReal
-	static String eligeFrase(String[] frases, String fraseReal) {
+	static void eligeFrase() {
 
-		return fraseReal;
+		// variable para almacenar un numero random
+		int numRand = rand.nextInt(0, frases.length);
+
+		// almaceno lo que haya en la fila random de las frases en la variable frase
+		// real
+		fraseReal = frases[numRand];
+
 	}
 
 	/*
@@ -88,13 +101,40 @@ public class ExamenArraysString {
 	 * coordenadas en el array. La codificación se almacenará en fraseCodificada.
 	 * Entre cada código debe haber un espacio (“ “). Los espacios de la fraseReal
 	 * no se codifican, sino que aparecerán como dos espacios en la fraseCodificada
+	 * 
+	 * 
+	 * fraseReal = “el dinero no puede comprar la vida” fraseCodificada = “14 02 13
+	 * 18 04 14 20 06 04 06 07 23 14 13 14 …”
 	 */
+	static void codificaFrase() {
 
-	// fraseReal = “el dinero no puede comprar la vida”
-	// fraseCodificada = “14 02 13 18 04 14 20 06 04 06 07 23 14 13 14 …”
-	static String codificaFrase(String fraseReal, String fraseCodificada) {
+		// variable para almacenar la letra
+		char letra = ' ';
 
-		return fraseCodificada;
+		// bucle para recorrer la frase real
+		for (int i = 0; i < fraseReal.length(); i++) {
+
+			// si el caracter no es un espacio
+			if (fraseReal.charAt(i) != ' ') {
+				letra = fraseReal.charAt(i);
+			} else {
+				fraseCodificada += "   ";
+			}
+
+			// bucle para recorrer el abecedario
+			for (int j = 0; j < abecedario.length; j++) {
+				for (int k = 0; k < abecedario[0].length; k++) {
+
+					if (letra == abecedario[j][k]) {
+						fraseCodificada += j;
+						fraseCodificada += " ";
+						fraseCodificada += k;
+					}
+
+				}
+			}
+		}
+
 	}
 
 	/*
