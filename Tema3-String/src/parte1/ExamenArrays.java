@@ -32,6 +32,15 @@ public class ExamenArrays {
 		// caracter del turno
 		char charTurno = 'O';
 
+		// variable para controlar si esta todo lleno
+		boolean lleno = false;
+
+		// contador para comprobar que la tabla esta llena
+		int contTablaLlena = 0;
+
+		// respuesta del usuario a seguir jugando o no
+		char respuesta;
+
 		// relleno el tablero
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero.length; j++) {
@@ -44,33 +53,39 @@ public class ExamenArrays {
 
 		// se decide quién empieza a jugar
 		turno = jugadorInicial();
+		imprimeTablero();
 
-		while (!esGanador(charTurno)) {
+		// mientras que no haya ganador
+		while (!esGanador(charTurno) && contTablaLlena < 9) {
 
 			if (turno == 1) {
-				System.out.println("Comienza el jugador (X).");
+				System.out.println("Turno del jugador (X).");
 
-				do {
-					System.out.println("¿Dónde desea colocar la ficha?");
+				// imprimeTablero();
 
+				System.out.println("¿Dónde desea colocar la ficha?");
+
+				// recojo sus respuestas
+				System.out.print("Fila: ");
+				filaJ = leer.nextInt();
+
+				System.out.print("Columna: ");
+				colJ = leer.nextInt();
+
+				while (!usuarioMueveFicha(filaJ, colJ)) {
+					System.err.println("El movimiento no se pudo efectuar correctamente.");
 					// recojo sus respuestas
 					System.out.print("Fila: ");
 					filaJ = leer.nextInt();
 
 					System.out.print("Columna: ");
 					colJ = leer.nextInt();
+				}
 
-					usuarioMueveFicha(filaJ, colJ);
-
-					if (usuarioMueveFicha(filaJ, colJ) == false) {
-						System.out.println("El movimiento no se pudo efectuar correctamente.");
-					}
-
-					// se sigue ejecutando mientras que el movimiento sea erroneo
-				} while (!usuarioMueveFicha(filaJ, colJ));
+				// se sigue ejecutando mientras que el movimiento sea erroneo
 
 			} else {
-				System.out.println("Comienza la CPU (O).");
+				System.out.println("Turno de la CPU (O).");
 				// mueve ficha la máquina
 				mueveFichaAleatoria();
 			}
@@ -86,12 +101,40 @@ public class ExamenArrays {
 			 */
 			if (turno == 0) {
 				turno++;
-				charTurno = 'X';
+				charTurno = 'O';
 			} else {
 				turno = 0;
-				charTurno = 'O';
+				charTurno = 'X';
 			}
 
+			contTablaLlena++;
+
+			// si el contador está a 9
+			if (contTablaLlena == 9) {
+				lleno = true;
+
+				// le pregunto al usuario si quiere continuar
+				System.out.print("¿Desea seguir jugando? (S/N): ");
+				respuesta = leer.next().toUpperCase().charAt(0);
+
+				// si quiere seguir jugando se reinicia el contador
+				if (respuesta == 'S') {
+					limpiarTablero(lleno);
+					contTablaLlena = 0;
+					lleno = false;
+				}
+
+			}
+
+		}
+
+		// como se ha salido del bucle significa que ha ganado alguien
+		if (charTurno == 'X') {
+			System.out.println("¡Has ganado, enhorabuena!");
+		} else if (esGanador(charTurno) == false) {
+			System.out.println("No ha ganado nadie.");
+		} else {
+			System.out.println("¡Has perdido! ¡Ha ganado la máquina!");
 		}
 
 	}
@@ -149,17 +192,29 @@ public class ExamenArrays {
 	// jugador asigna la posición de su ficha
 	static boolean usuarioMueveFicha(int filaJ, int colJ) {
 
-		boolean validezMovimiento = true;
+		boolean validezMovimiento = false;
 
 		// si la posicion del tablero está vacía añade la X
 		if (tablero[filaJ][colJ] == '-') {
 			tablero[filaJ][colJ] = 'X';
-		} else {
-			// es false porque no se ha podido ejecutar el movimiento
-			validezMovimiento = false;
+			validezMovimiento = true;
 		}
 
 		return validezMovimiento;
+
+	}
+
+	// funcion para limpiar el tablero
+	static void limpiarTablero(boolean lleno) {
+
+		// si lleno es positivo limpia la tabla
+		if (lleno == true) {
+			for (int i = 0; i < tablero.length; i++) {
+				for (int j = 0; j < tablero.length; j++) {
+					tablero[i][j] = '-';
+				}
+			}
+		}
 
 	}
 
@@ -170,64 +225,76 @@ public class ExamenArrays {
 		// contador
 		int contador = 0;
 
-		// recorrer las columnas en horizontal
-		for (char[] fila : tablero) {
-			for (char col : fila) {
-				// si lo que hay en la columna es lo mismo que el caracter incrementa
-				if (col == charTurno) {
+		// variable contador para el indice del array
+		int indice = 0;
+
+		// recorrido por filas
+		while (!ganador && indice < tablero.length) {
+			contador = 0;
+			for (int j = 0; j < tablero[indice].length; j++) {
+				if (tablero[indice][j] == charTurno) {
 					contador++;
 				}
-
-				// si el contador llega a 3 ha ganado
-				if (contador == 3) {
-					ganador = true;
-				}
 			}
-			contador = 0;
+
+			if (contador == 3) {
+				ganador = true;
+			}
+
+			indice++;
 		}
 
-		// recorrer en vertical
-		for (int i = 0; i < tablero.length; i++) {
-			for (int j = 0; j < tablero[0].length; j++) {
-				// si lo que hay en la columna es lo mismo que el caracter incrementa
-				if (tablero[j][i] == charTurno) {
+		indice = 0;
+
+		// recorrido por columnas
+		while (!ganador && indice < tablero[0].length) {
+			contador = 0;
+			for (int j = 0; j < tablero.length; j++) {
+				if (tablero[j][indice] == charTurno) {
 					contador++;
 				}
-				// si el contador llega a 3 ha ganado
-				if (contador == 3) {
-					ganador = true;
-				}
 			}
-			contador = 0;
+
+			if (contador == 3) {
+				ganador = true;
+			}
+
+			indice++;
 		}
+
+		indice = 0;
+		contador = 0;
 
 		// recorrer diagonal izq der
-		for (int i = 0, j = 0; i < tablero.length; i++, j++) {
-			// si lo que hay en la columna es lo mismo que el caracter incrementa
-			if (tablero[j][i] == charTurno) {
+		while (!ganador && indice < tablero.length) {
+			if (tablero[indice][indice] == charTurno) {
 				contador++;
 			}
-			// si el contador llega a 3 ha ganado
+
+			indice++;
+
 			if (contador == 3) {
 				ganador = true;
 			}
+
 		}
 
 		contador = 0;
+		indice = 0;
 
 		// recorrer diagonal der izq
-		for (int i = tablero.length - 1, j = tablero.length - 1; i >= 0; i--, j--) {
-			// si lo que hay en la columna es lo mismo que el caracter incrementa
-			if (tablero[j][i] == charTurno) {
+		while (!ganador && indice < tablero.length) {
+			if (tablero[indice][indice] == charTurno) {
 				contador++;
 			}
-			// si el contador llega a 3 ha ganado
+
+			indice++;
+
 			if (contador == 3) {
 				ganador = true;
 			}
-		}
 
-		contador = 0;
+		}
 
 		return ganador;
 	}
