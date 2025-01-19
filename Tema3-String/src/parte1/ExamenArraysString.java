@@ -119,30 +119,31 @@ public class ExamenArraysString {
 		// variable para almacenar la letra
 		char letra = ' ';
 
-		// bucle para recorrer la frase real
-		for (int i = 0; i < fraseReal.length(); i++) {
+		boolean salir;
 
-			// si el caracter no es un espacio
-			if (fraseReal.charAt(i) != ' ') {
-				letra = fraseReal.charAt(i);
-			} else {
-				fraseCodificada += "  ";
+		for (int i = 0; i < fraseReal.length(); i++) {
+			letra = fraseReal.charAt(i);
+
+			if (letra == ' ') {
+				fraseCodificada += "  "; // Espacios en la frase se convierten en doble espacio
+				continue;
 			}
 
-			// bucle para recorrer el abecedario
-			for (int j = 0; j < abecedario.length; j++) {
-				for (int k = 0; k < abecedario[0].length; k++) {
+			salir = false; // Variable para salir del while
 
-					if (letra == abecedario[j][k]) {
-						fraseCodificada += " ";
-						fraseCodificada += j;
-						fraseCodificada += k;
+			int j = 0; // Iniciar el índice de filas
+			while (j < abecedario.length && !salir) {
+				for (int k = 0; k < abecedario[j].length && !salir; k++) {
+					if (abecedario[j][k] == letra) {
+						fraseCodificada += j + "" + k + " "; // Concatenación segura
+						salir = true; // Cambiar la variable para salir del while y del for
 					}
-
 				}
+				j++; // Incrementar la fila manualmente
 			}
 		}
 
+		fraseCodificada = fraseCodificada.trim(); // Eliminar espacios extra al final
 	}
 
 	/*
@@ -191,7 +192,7 @@ public class ExamenArraysString {
 
 		leer.nextLine();
 
-		codigoCadena = String.valueOf(codigo);
+		codigoCadena = (codigo < 10) ? "0" + String.valueOf(codigo) : String.valueOf(codigo);
 
 		// pido la letra
 		System.out.print("Letra: ");
