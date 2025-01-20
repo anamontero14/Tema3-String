@@ -44,7 +44,8 @@ public class ExamenBucle {
 		System.out.println();
 
 		while (!exit) {
-
+			
+			System.out.println();
 			// comienza
 			System.out.println("Turno del JUGADOR " + contTurno);
 			System.out.print("¿Quiere sacar una carta? (S/N): ");
@@ -107,15 +108,12 @@ public class ExamenBucle {
 				puntosJ2 = puntosActuales;
 				exit = true;
 			}
-
-			/*
-			 * // cambio de jugador if (contTurno <= 2) { contTurno++; } else { exit = true;
-			 * }
-			 */
 		}
-
+		
+		System.out.println();
 		System.out.println("El JUGADOR 1 tiene " + puntosJ1 + " puntos y el JUGADOR 2 tiene " + puntosJ2 + " puntos");
-
+		
+		System.out.println();
 		if (puntosJ1 > puntosJ2 && puntosJ1 <= 7.5) {
 			System.out.println("Gana el JUGADOR 1.");
 		} else if (puntosJ1 > puntosJ2 && puntosJ1 > 7.5 && puntosJ2 <= 7.5) {

@@ -27,6 +27,8 @@ public class ExamenBuscaminas {
 	static int filaJ;
 	static int colJ;
 
+	static char letraA = 'A';
+
 	public static void main(String[] args) {
 
 		boolean exit = false;
@@ -39,17 +41,15 @@ public class ExamenBuscaminas {
 			}
 		}
 
+		// colocar las minas y las pistas
 		colocalMinas();
-		mostrarTablero(tablero);
-
 		colocarPistas();
-
-		System.out.println();
-		System.out.println();
 		mostrarTablero(tablero);
+		mostrarTablero(tableroJ);
 
 		do {
 			try {
+				System.out.println();
 				// donde quiere mover la ficha
 				System.out.println("¿Qué casilla desea desvelar?");
 
@@ -74,15 +74,15 @@ public class ExamenBuscaminas {
 		movimientosPosibles--;
 
 		while (movimientosPosibles > 0 && !movimientoUsuario()) {
+			// reinicio la variable para salir del do while comprobacion
 			exit = false;
 
-			mostrarTablero(tablero);
-			System.out.println();
 			System.out.println();
 			mostrarTablero(tableroJ);
 
 			do {
 				try {
+					System.out.println();
 					// donde quiere mover la ficha
 					System.out.println("¿Qué casilla desea desvelar?");
 
@@ -120,12 +120,31 @@ public class ExamenBuscaminas {
 	// mostrar los tableros
 	static void mostrarTablero(char[][] tableroAMostrar) {
 
-		for (char fila[] : tableroAMostrar) {
-			for (char col : fila) {
-				System.out.print(col + "  ");
+		char letra;
+
+		// mostrar las letras
+		for (int i = 0; i < tableroAMostrar.length; i++) {
+			letra = (char) (letraA + i);
+			System.out.print("\t" + letra);
+		}
+
+		System.out.println();
+		System.out.println();
+
+		for (int i = 0; i < tableroAMostrar.length; i++) {
+
+			System.out.print(i + "\t");
+
+			for (int j = 0; j < tableroAMostrar[0].length; j++) {
+				System.out.print(tableroAMostrar[i][j] + "\t");
 			}
 			System.out.println();
 		}
+
+		/*
+		 * for (char fila[] : tableroAMostrar) { for (char col : fila) {
+		 * System.out.print(col + "  "); } System.out.println(); }
+		 */
 
 	}
 
@@ -143,7 +162,7 @@ public class ExamenBuscaminas {
 
 			// asigno un numero aleatorio a las filas y columnas
 			posFila = rand.nextInt(0, tablero.length);
-			posCol = rand.nextInt(0, tablero.length);
+			posCol = rand.nextInt(0, tablero[0].length);
 
 			if (tablero[posFila][posCol] == '.') {
 				tablero[posFila][posCol] = '*';
@@ -221,6 +240,8 @@ public class ExamenBuscaminas {
 
 		// variable para determinar si ha encontrado una mina o no
 		boolean encuentraMina = false;
+		
+		char letra;
 
 		// si la casilla no tiene mina la coloca ahi
 		if (tablero[filaJ][colJ] != '*') {

@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class ExamenString {
 
+	static Scanner leer = new Scanner(System.in);
+
 	// array de las palabras
 	static String[] palabras = { "humanidad", "persona", "hombre", "mujer", "individuo", "cuerpo", "pierna", "cabeza",
 			"brazo", "familia" };
@@ -21,24 +23,40 @@ public class ExamenString {
 	 * “individuo” y el jugador ha introducido i, esta variable almacenará la
 	 * siguiente cadena: i__i_i___
 	 */
-	static String palabraPista;
+	static String palabraPista = "";
 
 	// almacena las letras con las que el jugador lo ha intentado pero que no están
-	static String noAcertadas;
+	static String noAcertadas = "";
 
 	public static void main(String[] args) {
-		
+
+		// variable que almacenara la letra que el usuario quiere adivinar
+		char letra;
+
 		generaPalabra();
-		
+
+		System.out.println(palabraSecreta);
+
+		// relleno la palabra pista con rallones
+		for (int i = 0; i < palabraSecreta.length(); i++) {
+			palabraPista += "_";
+		}
+
 		pintaPista();
-		
+
 		if (menu() == 1) {
-			compruebaLetra();
+
+			// recoge la letra a mostrar
+			System.out.print("Introduzca la letra: ");
+			letra = leer.next().toLowerCase().charAt(0);
+
+			compruebaLetra(letra);
+
+			pintaPista();
+
 		} else {
 			compruebaPalabra();
 		}
-		
-		//
 
 	}
 
@@ -62,8 +80,6 @@ public class ExamenString {
 	 */
 	static int menu() {
 
-		Scanner leer = new Scanner(System.in);
-
 		int opcion = 0;
 
 		System.out.println("Seleccione una de las siguientes opciones:");
@@ -84,8 +100,25 @@ public class ExamenString {
 	 * variable palabraPista con las posiciones acertadas. En caso contrario, añade
 	 * la letra a noAcertadas.
 	 */
-	static void compruebaLetra() {
+	static void compruebaLetra(char letra) {
 
+		// letra en cadena
+		String letraAuxiliar = String.valueOf(letra);
+
+		if (palabraSecreta.contains(letraAuxiliar)) {
+
+			// si se encuentra en la cadena
+			for (int i = 0; i < palabraSecreta.length(); i++) {
+				// si recorre la palabra y se encuentra la letra
+				if (palabraSecreta.charAt(i) == letra) {
+					// se añade lo que haya entre esos valores
+					palabraPista = palabraPista.substring(0, i) + letra + palabraPista.substring(i + 1);
+				}
+			}
+		} else {
+			// si no la contiene se añade a las letras no acertadas
+			noAcertadas += letraAuxiliar + "  ";
+		}
 	}
 
 	/*
@@ -96,18 +129,20 @@ public class ExamenString {
 	 * contrario, no hará nada.
 	 */
 	static void compruebaPalabra() {
-
+		
+		
+		
 	}
 
-	/*
-	 * Función estática. No recibe parámetros y no devuelve nada, sólo pinta por
-	 * consola. Debe pintar dos cosas por consola: Letras usadas no acertadas: debe
-	 * pintar una lista (en horizontal) con todas las letras que ha usado hasta
-	 * ahora pero que no se encuentran en la palabra a adivinar. Para ello hay que
-	 * hacer uso de la variable noAcertadas. Pista: pinta por pantalla el contenido
-	 * de palabraPista.
-	 */
+	// muestra la palabra pista y las letras no acertadas
 	static void pintaPista() {
+
+		// muestro la pista
+		System.out.println("Pista: " + palabraPista);
+
+		System.out.println();
+		// muestro las no acertadas
+		System.out.println("Letras no acertadas: " + noAcertadas);
 
 	}
 
