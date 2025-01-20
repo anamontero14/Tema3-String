@@ -33,6 +33,16 @@ public class ExamenString {
 		// variable que almacenara la letra que el usuario quiere adivinar
 		char letra;
 
+		String palabra = "";
+
+		int contador = 0;
+
+		int opcion;
+
+		boolean error = false;
+
+		// boolean salir = false;
+
 		generaPalabra();
 
 		System.out.println(palabraSecreta);
@@ -42,20 +52,49 @@ public class ExamenString {
 			palabraPista += "_";
 		}
 
-		pintaPista();
-
-		if (menu() == 1) {
-
-			// recoge la letra a mostrar
-			System.out.print("Introduzca la letra: ");
-			letra = leer.next().toLowerCase().charAt(0);
-
-			compruebaLetra(letra);
+		do {
+			// incrementa el contador
+			contador++;
 
 			pintaPista();
 
+			// imprimo el numero de intentos
+			System.out.println("Número de intentos " + contador + "/" + NUMINTENTOS);
+
+			do {
+				opcion = menu();
+
+				if (opcion == 1) {
+
+					// recoge la letra a mostrar
+					System.out.print("Introduzca la letra: ");
+					letra = leer.next().toLowerCase().charAt(0);
+
+					compruebaLetra(letra);
+
+					error = true;
+
+				} else if (opcion == 2) {
+					// recoge la palabra
+					System.out.print("Introduzca la palabra: ");
+					leer.nextLine();
+					palabra = leer.nextLine().toLowerCase();
+
+					compruebaPalabra(palabra);
+
+					error = true;
+
+				} else {
+					System.err.println("Ha introducido una opción incorrecta, escoja otra.");
+				}
+			} while (!error);
+
+		} while (contador < 7 && !palabraSecreta.equalsIgnoreCase(palabraPista));
+
+		if (contador == NUMINTENTOS && !palabraSecreta.equalsIgnoreCase(palabraPista)) {
+			System.out.println("GAME OVER");
 		} else {
-			compruebaPalabra();
+			System.out.println("¡¡ENHORABUENA!! HAS ACERTADO");
 		}
 
 	}
@@ -121,17 +160,15 @@ public class ExamenString {
 		}
 	}
 
-	/*
-	 * Recibe como parámetro una cadena y no devuelve nada. La cadena introducida
-	 * puede estar en minúscula, mayúscula o una combinación de ambas. En caso de
-	 * que la cadena introducida por parámetro coincida con la palabra a acertar,
-	 * almacenará en palabraPista la cadena introducida por parámetro. En caso
-	 * contrario, no hará nada.
-	 */
-	static void compruebaPalabra() {
-		
-		
-		
+	// comprueba que la palabra y la palabra a adivinar sean o no iguales
+	static void compruebaPalabra(String palabra) {
+
+		// comprobar si son iguales
+		if (palabraSecreta.equalsIgnoreCase(palabra)) {
+			// si son iguales pone la palabra introducida en palabra pista
+			palabraPista = palabra;
+		}
+
 	}
 
 	// muestra la palabra pista y las letras no acertadas
